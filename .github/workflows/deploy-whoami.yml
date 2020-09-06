@@ -25,9 +25,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run build
-    - run: npm run export
-    - run: touch ./out/.nojekyll
+    - name: Building
+      run: npm run build
+      env:
+        NEXT_PUBLIC_PATH_PREFIX: '/whoami'
+    - name: Exporting
+      run: npm run export
+      env:
+        NEXT_PUBLIC_PATH_PREFIX: '/whoami'
+    - name: Adding nojekyll file
+      run: touch ./out/.nojekyll
 
     - name: Deploy to pages
       uses: JamesIves/github-pages-deploy-action@3.5.9
